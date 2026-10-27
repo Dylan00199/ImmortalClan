@@ -109,9 +109,9 @@ export class Engine {
       }
       return;
     }
-    if (a === 'DRINK' && target) { w.needs.thirst = clamp(w.needs.thirst + dt * 8, 0, 100); if (w.needs.thirst > 96) w.decisionAt = this.world.time; }
-    if (a === 'EAT' && target) { w.needs.hunger = clamp(w.needs.hunger + dt * 7, 0, 100); if (w.foodHeld > 0) w.foodHeld = Math.max(0, w.foodHeld - dt * 2); if (w.needs.hunger > 96) w.decisionAt = this.world.time; }
-    if (a === 'REST' && target) { w.needs.energy = clamp(w.needs.energy + dt * 5, 0, 100); if (w.needs.energy > 95) w.decisionAt = this.world.time; }
+    if (a === 'DRINK' && target) { w.needs.thirst = clamp(w.needs.thirst + dt * 8, 0, 100); if (w.needs.thirst > 96) { w.decisionAt = this.world.time; w.commitmentUntil = 0; } }
+    if (a === 'EAT' && target) { w.needs.hunger = clamp(w.needs.hunger + dt * 7, 0, 100); if (w.foodHeld > 0) w.foodHeld = Math.max(0, w.foodHeld - dt * 2); if (w.needs.hunger > 96) { w.decisionAt = this.world.time; w.commitmentUntil = 0; } }
+    if (a === 'REST' && target) { w.needs.energy = clamp(w.needs.energy + dt * 5, 0, 100); if (w.needs.energy > 95) { w.decisionAt = this.world.time; w.commitmentUntil = 0; } }
     if (a === 'HUNT' && target && 'id' in target && dist(w, target) < 42) {
       const prey = target as Prey; w.foodHeld += 35; w.needs.hunger = clamp(w.needs.hunger + 22, 0, 100); w.emotions.joy = clamp(w.emotions.joy + .1); this.remember(w, 'hunt', prey, .6, [prey.id]); this.log(`${w.name} caught ${prey.id}.`, w.id);
       const zone = this.rng.pick(this.world.map.preySpawnZones); Object.assign(prey, this.pathfinder.nearest({ x: zone.x + this.rng.range(-70, 70), y: zone.y + this.rng.range(-70, 70) })); this.nextPrey++; prey.id = `prey${this.nextPrey + 10}`; w.decisionAt = this.world.time; w.path = [];

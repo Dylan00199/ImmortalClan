@@ -58,6 +58,7 @@ export class LLMBrain implements Brain {
     if (o.time >= this.nextAt && !this.pending) this.call(o, w, utility.action);
     if (this.hybrid) return { ...utility, thought: this.cached.action === utility.action ? this.cached.thought : utility.thought };
     if (critical) return { ...utility, action: 'FLEE', thought: 'Immediate danger. I must flee.' };
+    if ((this.cached.action === 'EAT' && w.needs.hunger > 95) || (this.cached.action === 'DRINK' && w.needs.thirst > 95) || (this.cached.action === 'REST' && w.needs.energy > 95)) return utility;
     return this.cached;
   }
   private call(o: Observation, w: Wolf, chosenAction: Decision['action']): void {
