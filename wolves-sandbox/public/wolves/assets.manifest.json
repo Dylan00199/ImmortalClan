@@ -1,0 +1,18 @@
+{
+  "source": "/wolves/sheet.png",
+  "note": "One static frame per direction from supplied contact sheet. All other animations fall back to idle.",
+  "designs": {
+    "blue": { "idle": {
+      "down": [{ "path": "/wolves/sheet.png", "rect": [64, 36, 205, 263] }],
+      "up": [{ "path": "/wolves/sheet.png", "rect": [285, 37, 172, 265] }],
+      "left": [{ "path": "/wolves/sheet.png", "rect": [485, 58, 260, 247] }],
+      "right": [{ "path": "/wolves/sheet.png", "rect": [754, 58, 255, 247] }]
+    } },
+    "pink": { "idle": {
+      "down": [{ "path": "/wolves/sheet.png", "rect": [75, 369, 194, 240] }],
+      "up": [{ "path": "/wolves/sheet.png", "rect": [300, 368, 168, 242] }],
+      "left": [{ "path": "/wolves/sheet.png", "rect": [488, 374, 261, 230] }],
+      "right": [{ "path": "/wolves/sheet.png", "rect": [759, 371, 255, 232] }]
+    } }
+  }
+}
