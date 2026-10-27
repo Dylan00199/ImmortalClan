@@ -36,4 +36,43 @@ describe('simulation', () => {
     expect(e.world.events.some(event => event.text.includes('thắng thách đấu'))).toBe(true);
     expect(e.world.wolves.every(w => w.thoughts.length > 0)).toBe(true);
   });
+  it('makes Adam impulsive, Eva manipulative and Oden cautious', () => {
+    const e = new Engine(map, 7), [adam, eva, oden] = e.world.wolves;
+    expect(oden.name).toBe('Oden');
+    adam.needs.energy = 18; adam.health = 20;
+    oden.needs.energy = 45;
+    const observation = (self: typeof adam) => ({ time: 20, self, wolves: e.world.wolves, prey: e.world.prey, threats: [], map });
+    expect(scoreActions(observation(adam)).CHALLENGE).toBeGreaterThan(0);
+    expect(scoreActions(observation(oden)).CHALLENGE).toBe(0);
+    expect(scoreActions(observation(eva)).PROVOKE).toBeGreaterThan(0);
+    expect(adam.attack).toBeGreaterThan(oden.attack);
+    expect(oden.attack).toBeGreaterThan(eva.attack);
+  });
+  it('lets Eva provoke conflict between the other two wolves', () => {
+    const e = new Engine(map, 7), [adam, eva, oden] = e.world.wolves;
+    e.world.time = 20;
+    eva.x = adam.x; eva.y = adam.y; eva.provokeCooldownUntil = 0;
+    eva.decision = { action: 'PROVOKE', targetId: adam.id, thought: 'Khơi mâu thuẫn.' }; eva.decisionAt = 100;
+    adam.decisionAt = 100;
+    const trust = adam.relationships[oden.id].trust;
+    e.step(.1);
+    expect(adam.relationships[oden.id].trust).toBeLessThan(trust);
+    expect(adam.decision.action).toBe('QUARREL');
+    expect(adam.decision.targetId).toBe(oden.id);
+    expect(e.world.events.some(event => event.text.includes('khơi mâu thuẫn'))).toBe(true);
+  });
+  it('applies attack damage in a challenge and restores health while resting', () => {
+    const e = new Engine(map, 7), [adam, eva] = e.world.wolves;
+    e.world.time = 20;
+    adam.x = eva.x; adam.y = eva.y; adam.challengeCooldownUntil = 0;
+    adam.decision = { action: 'CHALLENGE', targetId: eva.id, thought: 'Thách đấu.' }; adam.decisionAt = 100;
+    const totalHealth = adam.health + eva.health;
+    e.step(.1);
+    expect(adam.health + eva.health).toBeLessThan(totalHealth);
+    eva.x = map.den.x; eva.y = map.den.y;
+    eva.decision = { action: 'REST', thought: 'Hồi phục.' }; eva.decisionAt = 100;
+    const woundedHealth = eva.health;
+    e.step(.1);
+    expect(eva.health).toBeGreaterThan(woundedHealth);
+  });
 });

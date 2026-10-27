@@ -35,7 +35,9 @@ The app loads `public/wolf-map/map.png` and `map.config.json` as supplied. The l
 
 ## Alpha rivalry
 
-Each wolf aims to make the other two submit. When ready, it pursues a rival and challenges them. The result uses traits, energy, fear and the seeded random generator. A challenge costs energy but causes no injury. The loser submits and can challenge again after its cooldown. A wolf is crowned alpha only while both other wolves directly submit to it; defeating an alpha releases that alpha's subjects. Immediate danger and urgent needs take priority over challenges. The thought text is an observable summary of the decision logic or adapter response, not a hidden reasoning trace. The exported log includes each wolf's recent thoughts and dominance results.
+Each wolf aims to make the other two submit. When ready, it pursues a rival and challenges them. The result uses attack, health, traits, energy, fear and the seeded random generator. Both wolves lose health in a challenge, with more damage to the loser. Resting at the den restores health. At zero health a wolf must rest and recover; the prototype has no death state. The loser submits and can challenge again after its cooldown. A wolf is crowned alpha only while both other wolves directly submit to it; defeating an alpha releases that alpha's subjects. The thought text is an observable summary of the decision logic or adapter response, not a hidden reasoning trace. The exported log includes each wolf's recent thoughts and dominance results.
+
+Adam has the highest attack and challenges immediately without checking his energy or health margin. Eva has the lowest attack and prefers to recover, then provokes distrust and quarrels between Adam and Oden. Oden compares effective strength before challenging and waits when the risk is too high. The right panel and map both display health bars; the panel also displays attack and personality.
 
 ## Brain configuration
 

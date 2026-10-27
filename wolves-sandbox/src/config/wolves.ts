@@ -1,9 +1,9 @@
 import type { BrainKind, Traits } from '../sim/types';
 
-export interface WolfConfig { id: string; name: string; brain: BrainKind; design: 'blue' | 'pink'; traits: Traits }
+export interface WolfConfig { id: string; name: string; brain: BrainKind; design: 'blue' | 'pink'; traits: Traits; persona: string; attack: number; maxHealth: number }
 
 export const WOLVES: WolfConfig[] = [
-  { id: 'adam', name: 'Adam', brain: 'utility', design: 'blue', traits: { boldness: .72, sociability: .55, patience: .45, aggression: .67 } },
-  { id: 'eva', name: 'Eva', brain: 'llm', design: 'pink', traits: { boldness: .38, sociability: .82, patience: .71, aggression: .28 } },
-  { id: 'wolf3', name: 'Wolf 3', brain: 'hybrid', design: 'blue', traits: { boldness: .55, sociability: .63, patience: .59, aggression: .42 } },
+  { id: 'adam', name: 'Adam', brain: 'utility', design: 'blue', persona: 'Nóng nảy, bốc đồng; muốn là làm ngay, bất chấp hậu quả.', attack: 27, maxHealth: 100, traits: { boldness: .96, sociability: .35, patience: .08, aggression: .94 } },
+  { id: 'eva', name: 'Eva', brain: 'llm', design: 'pink', persona: 'Yếu sức, giữ thể lực; chờ thời cơ và gieo mâu thuẫn giữa Adam với Oden.', attack: 12, maxHealth: 85, traits: { boldness: .18, sociability: .78, patience: .88, aggression: .17 } },
+  { id: 'wolf3', name: 'Oden', brain: 'hybrid', design: 'blue', persona: 'Trầm ổn, cẩn thận; đánh giá sức mạnh và rủi ro trước khi hành động.', attack: 21, maxHealth: 110, traits: { boldness: .52, sociability: .48, patience: .95, aggression: .38 } },
 ];

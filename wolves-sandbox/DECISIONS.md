@@ -7,5 +7,7 @@
 - The wolf IDs and third wolf name are centralized in `src/config/wolves.ts`.
 - Store map edits in memory until exported; loading the page resets to the supplied map config.
 - For the contact sheet, crop and color-key its near-black background in an offscreen canvas at load time. The original source is preserved.
-- Interpret the requested alpha goal as direct submission from both other wolves. Challenges use existing traits, energy and fear plus seeded randomness; they cost energy, have cooldowns, and do not cause injury. A former subject is released when its leader loses.
+- Interpret the requested alpha goal as direct submission from both other wolves. Challenges use attack, health, traits, energy and fear plus seeded randomness; they cost energy and health and have cooldowns. A former subject is released when its leader loses.
 - Show current intention and the latest short decision thoughts in the sidebar. These are generated decision summaries, not a model's private reasoning. Save them and dominance outcomes in exported run logs.
+- Keep the third wolf's ID as `wolf3` for existing controls and logs, but change its display name to Oden. Add health and attack as separate combat attributes. Zero health forces rest and recovery at the den; there is no death state.
+- Model Eva's manipulation as a new `PROVOKE` action: she approaches one of the two rivals, lowers that rival's trust in the other, raises anger, and starts a quarrel. Adam ignores low energy and health when deciding to challenge. Oden compares effective strength before initiating a challenge.

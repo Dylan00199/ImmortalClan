@@ -60,7 +60,8 @@ export class Renderer {
     const sprite = this.sprites.get(`${w.design}:${dir}`);
     c.fillStyle = 'rgba(0,0,0,.4)'; c.beginPath(); c.ellipse(w.x, w.y + 17, 27, 9, 0, 0, Math.PI * 2); c.fill();
     if (sprite) c.drawImage(sprite, w.x - 34, w.y - 52, 68, 76); else { c.fillStyle = w.design === 'pink' ? '#f69dac' : '#88b0db'; c.fillRect(w.x - 17, w.y - 25, 34, 45); }
+    c.fillStyle = '#271f1d'; c.fillRect(w.x - 25, w.y - 100, 50, 7); c.fillStyle = w.health / w.maxHealth < .3 ? '#e56c59' : '#88d285'; c.fillRect(w.x - 24, w.y - 99, 48 * w.health / w.maxHealth, 5);
     if (alpha) { c.fillStyle = '#e9c765'; c.beginPath(); c.moveTo(w.x - 16, w.y - 67); c.lineTo(w.x - 16, w.y - 79); c.lineTo(w.x - 8, w.y - 73); c.lineTo(w.x, w.y - 84); c.lineTo(w.x + 8, w.y - 73); c.lineTo(w.x + 16, w.y - 79); c.lineTo(w.x + 16, w.y - 67); c.closePath(); c.fill(); }
-    c.fillStyle = '#fff'; c.font = 'bold 15px sans-serif'; c.textAlign = 'center'; c.fillText(w.name, w.x, w.y - 58); c.font = '11px sans-serif'; c.fillText(w.decision.action === 'CHALLENGE' ? 'THÁCH ĐẤU' : w.decision.action === 'SUBMIT' ? 'QUY PHỤC' : w.decision.action, w.x, w.y + 38); c.textAlign = 'start';
+    c.fillStyle = '#fff'; c.font = 'bold 15px sans-serif'; c.textAlign = 'center'; c.fillText(w.name, w.x, w.y - 58); c.font = '11px sans-serif'; c.fillText(w.decision.action === 'CHALLENGE' ? 'THÁCH ĐẤU' : w.decision.action === 'SUBMIT' ? 'QUY PHỤC' : w.decision.action === 'PROVOKE' ? 'KHƠI MÂU THUẪN' : w.decision.action, w.x, w.y + 38); c.textAlign = 'start';
   }
 }
