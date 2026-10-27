@@ -47,19 +47,20 @@ export class Renderer {
     if (this.overlays.paths) for (const w of world.wolves) { c.strokeStyle = w.design === 'pink' ? '#ffaaba' : '#a7d2ff'; c.lineWidth = 3; c.beginPath(); c.moveTo(w.x, w.y); for (const p of w.path) c.lineTo(p.x, p.y); c.stroke(); }
     for (const prey of world.prey) { c.fillStyle = '#f2ddaa'; c.fillRect(prey.x - 7, prey.y - 5, 14, 10); c.fillRect(prey.x - 4, prey.y - 10, 3, 7); c.fillRect(prey.x + 2, prey.y - 10, 3, 7); }
     for (const threat of world.threats) { c.fillStyle = '#ed5454'; c.beginPath(); c.arc(threat.x, threat.y, 15, 0, Math.PI * 2); c.fill(); c.fillStyle = '#fff'; c.font = 'bold 17px sans-serif'; c.fillText('!', threat.x - 3, threat.y + 6); }
-    for (const wolf of world.wolves) this.drawWolf(c, wolf);
+    for (const wolf of world.wolves) this.drawWolf(c, wolf, world.alphaId === wolf.id);
     if (this.overlays.perception) for (const w of world.wolves) { c.strokeStyle = 'rgba(255,255,255,.55)'; c.lineWidth = 2; c.beginPath(); c.arc(w.x, w.y, 220, 0, Math.PI * 2); c.stroke(); }
     for (const z of world.map.zones) { c.fillStyle = 'rgba(20,24,20,.7)'; c.fillRect(z.x - 48, z.y - 15, 96, 22); c.fillStyle = '#fff'; c.font = '14px sans-serif'; c.textAlign = 'center'; c.fillText(z.name, z.x, z.y); }
     c.textAlign = 'start';
   }
   private drawCircle(c: CanvasRenderingContext2D, p: Point, radius: number, color: string, label: string): void { c.fillStyle = color; c.globalAlpha = .8; c.beginPath(); c.arc(p.x, p.y, radius, 0, Math.PI * 2); c.fill(); c.globalAlpha = 1; if (label) { c.fillStyle = '#222'; c.font = 'bold 14px sans-serif'; c.textAlign = 'center'; c.fillText(label, p.x, p.y + 4); c.textAlign = 'start'; } }
-  private drawWolf(c: CanvasRenderingContext2D, w: Wolf): void {
+  private drawWolf(c: CanvasRenderingContext2D, w: Wolf, alpha: boolean): void {
     const prior = this.last.get(w.id); let dir = this.directions.get(w.id) ?? 'down';
     if (prior && Math.hypot(w.x - prior.x, w.y - prior.y) > .2) dir = Math.abs(w.x - prior.x) > Math.abs(w.y - prior.y) ? w.x > prior.x ? 'right' : 'left' : w.y > prior.y ? 'down' : 'up';
     this.directions.set(w.id, dir); this.last.set(w.id, { x: w.x, y: w.y });
     const sprite = this.sprites.get(`${w.design}:${dir}`);
     c.fillStyle = 'rgba(0,0,0,.4)'; c.beginPath(); c.ellipse(w.x, w.y + 17, 27, 9, 0, 0, Math.PI * 2); c.fill();
     if (sprite) c.drawImage(sprite, w.x - 34, w.y - 52, 68, 76); else { c.fillStyle = w.design === 'pink' ? '#f69dac' : '#88b0db'; c.fillRect(w.x - 17, w.y - 25, 34, 45); }
-    c.fillStyle = '#fff'; c.font = 'bold 15px sans-serif'; c.textAlign = 'center'; c.fillText(w.name, w.x, w.y - 58); c.font = '11px sans-serif'; c.fillText(w.decision.action, w.x, w.y + 38); c.textAlign = 'start';
+    if (alpha) { c.fillStyle = '#e9c765'; c.beginPath(); c.moveTo(w.x - 16, w.y - 67); c.lineTo(w.x - 16, w.y - 79); c.lineTo(w.x - 8, w.y - 73); c.lineTo(w.x, w.y - 84); c.lineTo(w.x + 8, w.y - 73); c.lineTo(w.x + 16, w.y - 79); c.lineTo(w.x + 16, w.y - 67); c.closePath(); c.fill(); }
+    c.fillStyle = '#fff'; c.font = 'bold 15px sans-serif'; c.textAlign = 'center'; c.fillText(w.name, w.x, w.y - 58); c.font = '11px sans-serif'; c.fillText(w.decision.action === 'CHALLENGE' ? 'THÁCH ĐẤU' : w.decision.action === 'SUBMIT' ? 'QUY PHỤC' : w.decision.action, w.x, w.y + 38); c.textAlign = 'start';
   }
 }

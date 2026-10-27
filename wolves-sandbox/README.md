@@ -31,6 +31,11 @@ The app loads `public/wolf-map/map.png` and `map.config.json` as supplied. The l
 - Toggle path, obstacle and perception overlays.
 - Choose an edit tool, drag across cells to add or remove blocked cells, or click/drag to move the nearest water, food or den point. Export the edited config as JSON.
 - Export the run log to compare action shares, need averages, emotion averages, social counts and LLM calls.
+- Read each wolf's current intention, short decision thought, recent thought history, and progress toward becoming alpha in the right panel.
+
+## Alpha rivalry
+
+Each wolf aims to make the other two submit. When ready, it pursues a rival and challenges them. The result uses traits, energy, fear and the seeded random generator. A challenge costs energy but causes no injury. The loser submits and can challenge again after its cooldown. A wolf is crowned alpha only while both other wolves directly submit to it; defeating an alpha releases that alpha's subjects. Immediate danger and urgent needs take priority over challenges. The thought text is an observable summary of the decision logic or adapter response, not a hidden reasoning trace. The exported log includes each wolf's recent thoughts and dominance results.
 
 ## Brain configuration
 

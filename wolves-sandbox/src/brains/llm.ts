@@ -1,14 +1,17 @@
 import { ACTIONS, type Brain, type Decision, type Emotions, type Observation, type Wolf } from '../sim/types';
 import { clamp } from '../sim/emotion';
 import { utilityDecision, safestAction } from './utility';
+import { challengeTarget } from '../sim/dominance';
 
 export interface LLMAdapter { request(observation: unknown): Promise<unknown>; requestSync?(observation: unknown): unknown }
 export interface LLMSettings { intervalSeconds: number; maxCallsPerMinute: number; timeoutMs: number }
 export const DEFAULT_LLM: LLMSettings = { intervalSeconds: 25, maxCallsPerMinute: 6, timeoutMs: 5000 };
 export function compactObservation(o: Observation, chosenAction?: Decision['action']): unknown {
   const w = o.self;
-  return { time: Math.round(o.time), id: w.id, mode: chosenAction ? 'hybrid' : 'decision', chosenAction, needs: w.needs, emotions: w.emotions, traits: w.traits,
-    nearbyWolves: o.wolves.filter(v => v.id !== w.id).map(v => ({ id: v.id, distance: Math.round(Math.hypot(v.x - w.x, v.y - w.y)) })),
+  const rival = challengeTarget(w, o.wolves);
+  return { time: Math.round(o.time), id: w.id, mode: chosenAction ? 'hybrid' : 'decision', chosenAction, goal: 'Thống trị hai sói còn lại để trở thành bá chủ', needs: w.needs, emotions: w.emotions, traits: w.traits,
+    dominance: { submittedTo: w.submittedTo, subjects: o.wolves.filter(v => v.submittedTo === w.id).map(v => v.id), wins: w.dominanceWins, losses: w.dominanceLosses, challengeReady: o.time >= w.challengeCooldownUntil, rivalId: rival?.id, rivalDistance: rival ? Math.round(Math.hypot(rival.x - w.x, rival.y - w.y)) : null },
+    nearbyWolves: o.wolves.filter(v => v.id !== w.id).map(v => ({ id: v.id, name: v.name, distance: Math.round(Math.hypot(v.x - w.x, v.y - w.y)), submittedTo: v.submittedTo })),
     prey: o.prey.map(v => ({ id: v.id, distance: Math.round(Math.hypot(v.x - w.x, v.y - w.y)) })).filter(v => v.distance < 350),
     threats: o.threats.map(v => ({ id: v.id, distance: Math.round(Math.hypot(v.x - w.x, v.y - w.y)) })).filter(v => v.distance < 350),
     memories: w.memories.slice(-4).map(m => ({ type: m.type, valence: m.valence, time: Math.round(m.time) })) };
@@ -32,9 +35,10 @@ export function validateReply(raw: unknown): Decision {
 }
 export class MockAdapter implements LLMAdapter {
   requestSync(o: unknown): unknown {
-    const d = o as { chosenAction?: Decision['action']; time: number; needs: { hunger: number; thirst: number; energy: number }; threats: unknown[]; prey: unknown[]; nearbyWolves: { distance: number }[] };
-    const action = d.chosenAction ?? (d.threats.length ? 'FLEE' : d.needs.thirst < 50 ? 'DRINK' : d.needs.energy < 40 ? 'REST' : d.needs.hunger < 55 ? d.prey.length ? 'HUNT' : 'EAT' : d.nearbyWolves.some(v => v.distance < 130) && Math.floor(d.time / 35) % 4 === 0 ? 'FOLLOW' : 'WANDER');
-    return { action, thought: `Mock appraisal: ${action.toLowerCase()} is the clearest next step.`, appraisal: { curiosity: .01 } };
+    const d = o as { chosenAction?: Decision['action']; time: number; needs: { hunger: number; thirst: number; energy: number; safety: number }; threats: unknown[]; prey: unknown[]; nearbyWolves: { distance: number }[]; dominance: { challengeReady: boolean; rivalId?: string; rivalDistance: number | null } };
+    const action = d.chosenAction ?? (d.threats.length ? 'FLEE' : d.needs.thirst < 50 ? 'DRINK' : d.needs.energy < 40 ? 'REST' : d.needs.hunger < 55 ? d.prey.length ? 'HUNT' : 'EAT' : d.dominance.challengeReady && d.dominance.rivalId && d.needs.safety > 35 ? 'CHALLENGE' : d.nearbyWolves.some(v => v.distance < 130) && Math.floor(d.time / 35) % 4 === 0 ? 'FOLLOW' : 'WANDER');
+    const thoughts: Partial<Record<Decision['action'], string>> = { CHALLENGE: `Ta muốn ${d.dominance.rivalId ?? 'đối thủ'} quy phục để lên ngôi bá chủ.`, DRINK: 'Ta phải uống nước trước khi tranh ngôi.', EAT: 'Ta cần ăn để giữ sức mạnh.', REST: 'Ta nghỉ một chút rồi sẽ tranh ngôi.', FLEE: 'Giữ mạng trước; ngai đầu đàn để sau.', WANDER: 'Ta tìm cơ hội tiến gần hai đối thủ.', FOLLOW: 'Ta bám theo để quan sát đối thủ.', HUNT: 'Ta săn mồi để mạnh hơn.' };
+    return { action, targetId: action === 'CHALLENGE' ? d.dominance.rivalId : undefined, thought: thoughts[action] ?? 'Ta đang cân nhắc bước tiếp theo để trở thành bá chủ.', appraisal: { curiosity: .01 } };
   }
   async request(o: unknown): Promise<unknown> { return this.requestSync(o); }
 }
@@ -42,14 +46,14 @@ export class HttpAdapter implements LLMAdapter {
   constructor(private baseUrl: string, private model: string, private apiKey: string, private timeoutMs: number, private ollama = false) {}
   async request(observation: unknown): Promise<unknown> {
     const url = this.ollama ? `${this.baseUrl.replace(/\/$/, '')}/api/chat` : `${this.baseUrl.replace(/\/$/, '')}/chat/completions`;
-    const response = await fetch(url, { method: 'POST', signal: AbortSignal.timeout(this.timeoutMs), headers: { 'Content-Type': 'application/json', ...(this.apiKey ? { Authorization: `Bearer ${this.apiKey}` } : {}) }, body: JSON.stringify({ model: this.model, stream: false, format: this.ollama ? 'json' : undefined, messages: [{ role: 'system', content: `Choose one action from: ${ACTIONS.join(', ')}. Return only JSON {action,targetId,thought,appraisal}.` }, { role: 'user', content: JSON.stringify(observation) }] }) });
+    const response = await fetch(url, { method: 'POST', signal: AbortSignal.timeout(this.timeoutMs), headers: { 'Content-Type': 'application/json', ...(this.apiKey ? { Authorization: `Bearer ${this.apiKey}` } : {}) }, body: JSON.stringify({ model: this.model, stream: false, format: this.ollama ? 'json' : undefined, messages: [{ role: 'system', content: `Mỗi sói muốn khiến hai sói còn lại quy phục để thành bá chủ. Ưu tiên sống sót và nhu cầu cấp thiết. Chọn một hành động: ${ACTIONS.join(', ')}. Trả về JSON {action,targetId,thought,appraisal}; thought viết tiếng Việt, mô tả ý định hiện tại.` }, { role: 'user', content: JSON.stringify(observation) }] }) });
     if (!response.ok) throw new Error(`LLM HTTP ${response.status}`);
     const body = await response.json() as { message?: { content?: string }; choices?: { message?: { content?: string } }[] };
     return body.message?.content ?? body.choices?.[0]?.message?.content;
   }
 }
 export class LLMBrain implements Brain {
-  private nextAt = 0; private pending = false; private calls: number[] = []; private cached: Decision = { action: 'IDLE', thought: 'Observing.' };
+  private nextAt = 0; private pending = false; private calls: number[] = []; private cached: Decision = { action: 'IDLE', thought: 'Ta đang quan sát đối thủ.' };
   constructor(private adapter: LLMAdapter, private settings: LLMSettings = DEFAULT_LLM, private hybrid = false) {}
   wake(): void { this.nextAt = 0; }
   decide(o: Observation): Decision {
@@ -57,8 +61,9 @@ export class LLMBrain implements Brain {
     const critical = safestAction(w, o);
     if (o.time >= this.nextAt && !this.pending) this.call(o, w, utility.action);
     if (this.hybrid) return { ...utility, thought: this.cached.action === utility.action ? this.cached.thought : utility.thought };
-    if (critical) return { ...utility, action: 'FLEE', thought: 'Immediate danger. I must flee.' };
+    if (critical) return { ...utility, action: 'FLEE', thought: 'Nguy hiểm quá gần, ta phải thoát trước.' };
     if ((this.cached.action === 'EAT' && w.needs.hunger > 95) || (this.cached.action === 'DRINK' && w.needs.thirst > 95) || (this.cached.action === 'REST' && w.needs.energy > 95)) return utility;
+    if (this.cached.action === 'CHALLENGE' && (o.time < w.challengeCooldownUntil || !challengeTarget(w, o.wolves))) return utility;
     return this.cached;
   }
   private call(o: Observation, w: Wolf, chosenAction: Decision['action']): void {

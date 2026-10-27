@@ -13,7 +13,9 @@ export default defineConfig(({ mode }) => {
         const parsed = JSON.parse(body) as { observation: { mode?: string; chosenAction?: string } };
         const ollama = env.LLM_PROVIDER === 'ollama';
         const url = `${env.LLM_BASE_URL.replace(/\/$/, '')}${ollama ? '/api/chat' : '/chat/completions'}`;
-        const system = parsed.observation?.mode === 'hybrid' ? `Narrate the fixed action ${parsed.observation.chosenAction} in one short thought. Return JSON {action:"${parsed.observation.chosenAction}",thought,appraisal:{}}. Never choose another action.` : 'Return only JSON with action, targetId, thought and appraisal. Valid actions: IDLE,WANDER,GO_TO,DRINK,EAT,HUNT,REST,FLEE,FOLLOW,PLAY,SHARE_FOOD,GROOM,HOWL,QUARREL.';
+        const actions = 'IDLE,WANDER,GO_TO,DRINK,EAT,HUNT,REST,FLEE,FOLLOW,PLAY,SHARE_FOOD,GROOM,HOWL,QUARREL,CHALLENGE,SUBMIT';
+        const chosen = actions.split(',').includes(parsed.observation?.chosenAction ?? '') ? parsed.observation.chosenAction : 'IDLE';
+        const system = parsed.observation?.mode === 'hybrid' ? `Viết suy nghĩ tiếng Việt ngắn cho hành động cố định ${chosen}. Mỗi sói muốn thống trị hai sói còn lại, nhưng vẫn phải sống sót. Trả JSON {action:"${chosen}",thought,appraisal:{}}. Không đổi hành động.` : `Mỗi sói muốn thống trị hai sói còn lại để trở thành bá chủ. Ưu tiên sinh tồn. Trả JSON {action,targetId,thought,appraisal}, thought tiếng Việt. Hành động hợp lệ: ${actions}.`;
         const upstream = await fetch(url, { method: 'POST', signal: AbortSignal.timeout(Number(env.LLM_TIMEOUT_MS) || 5000), headers: { 'Content-Type': 'application/json', ...(env.LLM_API_KEY ? { Authorization: `Bearer ${env.LLM_API_KEY}` } : {}) }, body: JSON.stringify({ model: env.LLM_MODEL, stream: false, ...(ollama ? { format: 'json' } : {}), messages: [{ role: 'system', content: system }, { role: 'user', content: JSON.stringify(parsed.observation) }] }) });
         const data = await upstream.json() as { message?: { content?: string }; choices?: { message?: { content?: string } }[] };
         if (!upstream.ok) throw new Error(`Provider HTTP ${upstream.status}`);

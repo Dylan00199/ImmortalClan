@@ -6,6 +6,7 @@ import { validateReply } from '../src/brains/llm';
 import { decayMemory, updateEmotions } from '../src/sim/emotion';
 import { Pathfinder } from '../src/sim/pathfinding';
 import { Engine } from '../src/sim/world';
+import { recordDominance } from '../src/sim/dominance';
 
 const map = validateMap(mapJson);
 describe('simulation', () => {
@@ -17,4 +18,22 @@ describe('simulation', () => {
   it('does not cut blocked corners', () => { const tiny = validateMap({ seed: 1, world: { width: 64, height: 64 }, grid: { cols: 2, rows: 2, cellSize: 32, blocked: ['01', '10'] }, obstacles: [{ kind: 'rock', x: 32, y: 0, w: 32, h: 32 }, { kind: 'rock', x: 0, y: 32, w: 32, h: 32 }], waterPoints: [], foodPatches: [], den: { x: 16, y: 16, radius: 5 }, preySpawnZones: [], zones: [] }); const p = new Pathfinder(tiny); expect(p.find({ x: 16, y: 16 }, { x: 48, y: 48 })).toEqual([]); });
   it('limits repeated social interactions while wolves remain close', () => { const e = new Engine(map, 7); const w = e.world.wolves[0], mate = e.world.wolves[1]; w.x = mate.x; w.y = mate.y; w.foodHeld = 20; w.decision = { action: 'SHARE_FOOD', targetId: mate.id, thought: 'Share.' }; w.decisionAt = 100; for (let i = 0; i < 50; i++) e.step(.1); expect(w.stats.interactions).toBe(1); });
   it('does not reevaluate a satisfied need every tick', () => { const e = new Engine(map, 7); for (let i = 0; i < 3600; i++) e.step(.1); for (const w of e.world.wolves) expect(w.stats.decisions).toBeLessThan(200); });
+  it('crowns only a wolf that directly dominates both rivals and lets a loser challenge back', () => {
+    const e = new Engine(map, 7), [adam, eva, third] = e.world.wolves;
+    expect(recordDominance(e.world, adam, eva)).toBe(false);
+    expect(e.world.alphaId).toBeUndefined();
+    expect(recordDominance(e.world, adam, third)).toBe(true);
+    expect(e.world.alphaId).toBe(adam.id);
+    expect(recordDominance(e.world, eva, adam)).toBe(false);
+    expect(e.world.alphaId).toBeUndefined();
+    expect(adam.submittedTo).toBe(eva.id);
+    expect(third.submittedTo).toBeUndefined();
+  });
+  it('turns the alpha goal into observable challenges and a crown in a seeded run', () => {
+    const e = new Engine(map, 7);
+    for (let i = 0; i < 3600; i++) e.step(.1);
+    expect(e.world.alphaId).toBeTruthy();
+    expect(e.world.events.some(event => event.text.includes('thắng thách đấu'))).toBe(true);
+    expect(e.world.wolves.every(w => w.thoughts.length > 0)).toBe(true);
+  });
 });

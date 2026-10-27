@@ -1,5 +1,6 @@
 import type { MapConfig, Point } from '../config/map';
 import { WOLVES } from '../config/wolves';
+import { challengeTarget, recordDominance, subjectsOf } from './dominance';
 import { LLMBrain, MockAdapter, type LLMAdapter, type LLMSettings, DEFAULT_LLM } from '../brains/llm';
 import { UtilityBrain } from '../brains/utility';
 import { clamp, decayMemory, updateEmotions } from './emotion';
@@ -23,7 +24,7 @@ export class Engine {
     this.rng = new RNG(seed); this.pathfinder = new Pathfinder(map);
     const wolves: Wolf[] = WOLVES.map((c, i) => {
       const position = this.pathfinder.nearest({ x: map.den.x + (i - 1) * 60, y: map.den.y + 105 });
-      return { ...position, ...c, needs: { hunger: 75 - i * 8, thirst: 77 - i * 5, energy: 88 - i * 6, safety: 90 }, emotions: { joy: .35, fear: .08, anger: .06, sadness: .06, curiosity: .32 }, relationships: {}, memories: [], known: { food: map.foodPatches.map(p => ({ x: p.x, y: p.y })), water: map.waterPoints.map(p => ({ x: p.x, y: p.y })), danger: [], den: { x: map.den.x, y: map.den.y } }, decision: { action: 'IDLE', thought: 'Watching.' }, decisionAt: 0, commitmentUntil: 0, socialCooldownUntil: 0, path: [], speed: 58 + i * 3, foodHeld: 0, thoughts: [], stats: stats() };
+      return { ...position, ...c, needs: { hunger: 75 - i * 8, thirst: 77 - i * 5, energy: 88 - i * 6, safety: 90 }, emotions: { joy: .35, fear: .08, anger: .06, sadness: .06, curiosity: .32 }, relationships: {}, memories: [], known: { food: map.foodPatches.map(p => ({ x: p.x, y: p.y })), water: map.waterPoints.map(p => ({ x: p.x, y: p.y })), danger: [], den: { x: map.den.x, y: map.den.y } }, decision: { action: 'IDLE', thought: 'Ta muốn thống trị hai sói còn lại.' }, decisionAt: 0, commitmentUntil: 0, socialCooldownUntil: 0, challengeCooldownUntil: 8 + i * 4, dominanceWins: 0, dominanceLosses: 0, path: [], speed: 58 + i * 3, foodHeld: 0, thoughts: [{ time: 0, text: 'Ta muốn thống trị hai sói còn lại để thành bá chủ.' }], stats: stats() };
     });
     for (const w of wolves) for (const other of wolves) if (other.id !== w.id) w.relationships[other.id] = { trust: .2, affection: .2 };
     const prey = map.preySpawnZones.slice(0, 5).map((p, i) => { const at = this.pathfinder.nearest({ x: p.x + this.rng.range(-p.radius / 2, p.radius / 2), y: p.y + this.rng.range(-p.radius / 2, p.radius / 2) }); return { id: `prey${i}`, ...at, state: 'GRAZE' as const, energy: 100 }; });
@@ -46,6 +47,11 @@ export class Engine {
   remember(w: Wolf, type: string, p: Point, valence: number, involvedIds: string[] = []): void {
     w.memories.push({ type, x: p.x, y: p.y, time: this.world.time, valence, involvedIds, strength: 1 });
     if (w.memories.length > 24) w.memories.shift();
+  }
+  private think(w: Wolf, text: string): void {
+    if (w.thoughts[0]?.text === text) return;
+    w.thoughts.unshift({ time: this.world.time, text });
+    w.thoughts.length = Math.min(5, w.thoughts.length);
   }
   step(dt: number): void {
     if (!(dt > 0 && dt <= .25)) throw new Error('Fixed step must be in (0, 0.25]');
@@ -82,10 +88,15 @@ export class Engine {
     if (!w.stats.trajectory.length || this.world.time - w.stats.trajectory.at(-1)!.time >= 5) w.stats.trajectory.push({ time: this.world.time, needs: { ...w.needs }, emotions: { ...w.emotions }, action: w.decision.action });
   }
   private applyDecision(w: Wolf, d: Decision): void {
+    if (d.action === 'CHALLENGE') {
+      const target = this.world.wolves.find(other => other.id === d.targetId && other.id !== w.id && other.submittedTo !== w.id) ?? challengeTarget(w, this.world.wolves);
+      if (target && this.world.time >= w.challengeCooldownUntil && w.needs.energy > 32 && w.needs.safety > 35 && !this.world.threats.some(t => dist(t, w) < 115)) d = { ...d, targetId: target.id };
+      else d = { action: 'WANDER', thought: 'Ta cần giữ sức và chờ cơ hội khác để thách đấu.' };
+    }
     const changed = d.action !== w.decision.action || d.targetId !== w.decision.targetId;
     w.decision = d; w.decisionAt = this.world.time + 4; w.commitmentUntil = this.world.time + 7; w.stats.decisions++;
     if (changed) { w.path = []; this.log(`${w.name}: ${d.action} - ${d.thought}`, w.id); }
-    if (d.thought && w.thoughts[0] !== d.thought) { w.thoughts.unshift(d.thought); w.thoughts.length = Math.min(5, w.thoughts.length); }
+    if (d.thought) this.think(w, d.thought);
     if (d.emotionNudges) w.emotions = updateEmotions(w.emotions, w.traits, 0, d.emotionNudges);
   }
   private destination(w: Wolf): Point | undefined {
@@ -94,7 +105,7 @@ export class Engine {
     if (action === 'EAT') return w.foodHeld ? w : this.closest(w, map.foodPatches);
     if (action === 'REST') return map.den;
     if (action === 'HUNT') return this.world.prey.find(p => p.id === w.decision.targetId) ?? this.closest(w, this.world.prey);
-    if (['FOLLOW', 'PLAY', 'SHARE_FOOD', 'GROOM', 'QUARREL'].includes(action)) return this.world.wolves.find(v => v.id === w.decision.targetId);
+    if (['FOLLOW', 'PLAY', 'SHARE_FOOD', 'GROOM', 'QUARREL', 'CHALLENGE'].includes(action)) return this.world.wolves.find(v => v.id === w.decision.targetId);
     if (action === 'FLEE') { const t = this.closest(w, this.world.threats); if (!t) return map.den; return { x: Math.max(0, Math.min(map.world.width - 1, w.x + (w.x - t.x) * 2)), y: Math.max(0, Math.min(map.world.height - 1, w.y + (w.y - t.y) * 2)) }; }
     if (action === 'WANDER' || action === 'GO_TO') return w.path.at(-1) ?? this.pathfinder.nearest({ x: w.x + this.rng.range(-230, 230), y: w.y + this.rng.range(-230, 230) });
     return undefined;
@@ -102,7 +113,9 @@ export class Engine {
   private closest<T extends Point>(p: Point, items: T[]): T | undefined { return items.slice().sort((a, b) => dist(p, a) - dist(p, b))[0]; }
   private perform(w: Wolf, dt: number): void {
     const target = this.destination(w), a = w.decision.action;
+    if (a === 'CHALLENGE' && target && 'id' in target && (target as Wolf).submittedTo === w.id) { w.decisionAt = this.world.time; w.path = []; return; }
     if (target && dist(w, target) > (a === 'FOLLOW' ? 90 : 35)) {
+      if (['FOLLOW', 'HUNT', 'CHALLENGE'].includes(a) && w.path.length && dist(w.path.at(-1)!, target) > 64) w.path = [];
       if (!w.path.length) w.path = this.pathfinder.find(w, target);
       const next = w.path[0]; if (next) {
         const d = dist(w, next); if (d < 3) w.path.shift(); else { const speed = w.speed * (a === 'FLEE' ? 1.7 : 1); const move = Math.min(d, speed * dt); w.x += (next.x - w.x) / d * move; w.y += (next.y - w.y) / d * move; }
@@ -116,6 +129,7 @@ export class Engine {
       const prey = target as Prey; w.foodHeld += 35; w.needs.hunger = clamp(w.needs.hunger + 22, 0, 100); w.emotions.joy = clamp(w.emotions.joy + .1); this.remember(w, 'hunt', prey, .6, [prey.id]); this.log(`${w.name} caught ${prey.id}.`, w.id);
       const zone = this.rng.pick(this.world.map.preySpawnZones); Object.assign(prey, this.pathfinder.nearest({ x: zone.x + this.rng.range(-70, 70), y: zone.y + this.rng.range(-70, 70) })); this.nextPrey++; prey.id = `prey${this.nextPrey + 10}`; w.decisionAt = this.world.time; w.path = [];
     }
+    if (a === 'CHALLENGE' && target && 'id' in target && dist(w, target) < 55 && this.world.time >= w.challengeCooldownUntil) this.resolveChallenge(w, target as Wolf);
     if (['PLAY', 'GROOM', 'SHARE_FOOD', 'QUARREL'].includes(a) && target && 'id' in target && dist(w, target) < 50 && this.world.time >= w.socialCooldownUntil) {
       const mate = target as Wolf, relation = w.relationships[mate.id];
       const positive = a !== 'QUARREL'; relation.trust = clamp(relation.trust + (positive ? .04 : -.07), -1, 1); relation.affection = clamp(relation.affection + (positive ? .06 : -.08), -1, 1);
@@ -123,7 +137,41 @@ export class Engine {
       this.remember(w, a.toLowerCase(), mate, positive ? .4 : -.5, [mate.id]); w.stats.interactions++; this.log(`${w.name} ${a.toLowerCase().replace('_', ' ')} with ${mate.name}.`, w.id); w.socialCooldownUntil = this.world.time + 15; w.decisionAt = this.world.time + 4; if (!positive) this.wake(mate);
     }
   }
-  summary(): { wolf: string; brain: string; need: number; topAction: Action; social: number; decisions: number; calls: number; failures: number }[] {
-    return this.world.wolves.map(w => ({ wolf: w.name, brain: w.brain, need: Math.round(w.stats.needTotal / Math.max(1, w.stats.samples)), topAction: (Object.keys(w.stats.timeByAction) as Action[]).sort((a, b) => w.stats.timeByAction[b] - w.stats.timeByAction[a])[0], social: w.stats.interactions, decisions: w.stats.decisions, calls: w.stats.llmCalls, failures: w.stats.llmFailures }));
+  private resolveChallenge(challenger: Wolf, defender: Wolf): void {
+    const rating = (w: Wolf) => w.traits.boldness * .35 + w.traits.aggression * .35 + w.needs.energy / 100 * .2 + (1 - w.emotions.fear) * .1 + this.rng.range(-.15, .15);
+    const challengerRating = rating(challenger), defenderRating = rating(defender);
+    const winner = challengerRating >= defenderRating ? challenger : defender;
+    const loser = winner === challenger ? defender : challenger;
+    const previousAlpha = this.world.alphaId;
+    const crowned = recordDominance(this.world, winner, loser);
+    winner.challengeCooldownUntil = this.world.time + 32;
+    loser.challengeCooldownUntil = this.world.time + 38;
+    winner.needs.energy = clamp(winner.needs.energy - 7, 0, 100);
+    loser.needs.energy = clamp(loser.needs.energy - 12, 0, 100);
+    winner.emotions.joy = clamp(winner.emotions.joy + .12);
+    loser.emotions.fear = clamp(loser.emotions.fear + .16);
+    loser.emotions.anger = clamp(loser.emotions.anger + .09);
+    winner.relationships[loser.id].trust = clamp(winner.relationships[loser.id].trust - .05, -1, 1);
+    loser.relationships[winner.id].trust = clamp(loser.relationships[winner.id].trust - .12, -1, 1);
+    this.remember(winner, 'thắng thách đấu', loser, .8, [loser.id]);
+    this.remember(loser, 'thua thách đấu', winner, -.8, [winner.id]);
+    const winnerThought = crowned ? `Cả ${this.world.wolves.filter(v => v.id !== winner.id).map(v => v.name).join(' và ')} đã quy phục. Ta là bá chủ!` : `${loser.name} đã quy phục. Ta cần thêm ${2 - subjectsOf(this.world, winner.id).length} sói nữa.`;
+    const loserThought = `Ta tạm quy phục ${winner.name}; khi đủ sức, ta sẽ giành lại ngôi đầu.`;
+    winner.decision = { action: 'HOWL', thought: winnerThought };
+    winner.decisionAt = this.world.time + 6;
+    winner.commitmentUntil = 0;
+    winner.path = [];
+    loser.decision = { action: 'SUBMIT', targetId: winner.id, thought: loserThought };
+    loser.decisionAt = this.world.time + 8;
+    loser.commitmentUntil = 0;
+    loser.path = [];
+    this.think(winner, winnerThought);
+    this.think(loser, loserThought);
+    this.log(`${winner.name} thắng thách đấu; ${loser.name} quy phục.`, winner.id);
+    if (crowned && previousAlpha !== winner.id) this.log(`${winner.name} trở thành bá chủ của bầy.`, winner.id);
+    if (!crowned && previousAlpha && previousAlpha !== this.world.alphaId) this.log('Ngôi bá chủ đang bỏ trống.');
+  }
+  summary(): { wolf: string; brain: string; need: number; topAction: Action; subjects: number; submittedTo: string; alpha: boolean; social: number; decisions: number; calls: number; failures: number }[] {
+    return this.world.wolves.map(w => ({ wolf: w.name, brain: w.brain, need: Math.round(w.stats.needTotal / Math.max(1, w.stats.samples)), topAction: (Object.keys(w.stats.timeByAction) as Action[]).sort((a, b) => w.stats.timeByAction[b] - w.stats.timeByAction[a])[0], subjects: subjectsOf(this.world, w.id).length, submittedTo: w.submittedTo ?? '-', alpha: this.world.alphaId === w.id, social: w.stats.interactions, decisions: w.stats.decisions, calls: w.stats.llmCalls, failures: w.stats.llmFailures }));
   }
 }
