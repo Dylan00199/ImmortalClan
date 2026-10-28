@@ -22,16 +22,16 @@ Tất cả tám nhóm dùng cùng điều kiện chiêu mộ. Chim và Cá là *
 
 | ID | Nhóm | Bậc 1 | Bậc 2 | Bậc 3 | Trạng thái tên |
 |---|---|---|---|---|---|
-| SPEC-01 | Rắn | Phàm Xà | Linh Xà | Đại Mãng Xà / Yêu Xà | Tên làm việc |
-| SPEC-02 | Cáo | Phàm Hồ | Yêu Hồ | Tam Vĩ Hồ | Tên làm việc |
-| SPEC-03 | Rùa | Phàm Quy | Linh Quy | Thiết Giáp Quy | Tên làm việc |
-| SPEC-04 | Khỉ | Phàm Hầu | Hầu Tinh | Linh Hầu | Tên làm việc |
-| SPEC-05 | Sói | Phàm Lang | Tật Phong Lang | Yêu Lang | Tên làm việc |
-| SPEC-06 | Hổ | Phàm Hổ | Yêu Hổ | Sát Hổ | Tên làm việc |
-| SPEC-07 | Chim | Phàm Điểu | Linh Điểu | Yêu Cầm | Tên làm việc |
-| SPEC-08 | Cá | Phàm Ngư | Linh Ngư | Hà Hải Ngư | Tên làm việc |
+| SPEC-01 | Rắn | Nguyên Xà | Linh Xà | Đại Mãng Xà / Yêu Xà | Bậc 1 đã chốt; bậc 2–3 tên làm việc |
+| SPEC-02 | Cáo | Nguyên Hồ | Yêu Hồ | Tam Vĩ Hồ | Bậc 1 đã chốt; bậc 2–3 tên làm việc |
+| SPEC-03 | Rùa | Nguyên Quy | Linh Quy | Thiết Giáp Quy | Bậc 1 đã chốt; bậc 2–3 tên làm việc |
+| SPEC-04 | Khỉ | Nguyên Hầu | Hầu Tinh | Linh Hầu | Bậc 1 đã chốt; bậc 2–3 tên làm việc |
+| SPEC-05 | Sói | Nguyên Lang | Tật Phong Lang | Yêu Lang | Bậc 1 đã chốt; bậc 2–3 tên làm việc |
+| SPEC-06 | Hổ | Nguyên Hổ | Yêu Hổ | Sát Hổ | Bậc 1 đã chốt; bậc 2–3 tên làm việc |
+| SPEC-07 | Chim | Nguyên Điểu | Linh Điểu | Yêu Cầm | Bậc 1 đã chốt; bậc 2–3 tên làm việc |
+| SPEC-08 | Cá | Nguyên Ngư | Linh Ngư | Hà Hải Ngư | Bậc 1 đã chốt; bậc 2–3 tên làm việc |
 
-Điều kiện riêng và hiệu ứng từng bậc sẽ do Product Owner viết lại. Tên “Hầu Tinh” hoặc mô tả “khai trí” không trao trí tuệ độc lập cho thú thành viên. Người chơi khởi đầu với thủ lĩnh Sói; thủ lĩnh mới sau chuyển hồn dùng nhánh của thân xác nhận.
+Tên bậc 1 “Nguyên” phân biệt tám dòng có khả năng tiến hóa khi cá thể trở thành thủ lĩnh với tầng con mồi nền như Cá nhỏ và Chim nhỏ; thú thành viên không tự tiến hóa. Điều kiện riêng và hiệu ứng từng bậc sẽ do Product Owner viết lại. Tên “Hầu Tinh” hoặc mô tả “khai trí” không trao trí tuệ độc lập cho thú thành viên. Người chơi khởi đầu với thủ lĩnh Sói; thủ lĩnh mới sau chuyển hồn dùng nhánh của thân xác nhận.
 
 ## 3. Quần thể con mồi nền
 

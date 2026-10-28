@@ -135,7 +135,7 @@ Yêu Đan là thuộc tính nội tại hình thành khi lên Ngưng Đan, tăng
 - Bậc 1 là hình thái khởi điểm. Bậc 2 mở khi thủ lĩnh đạt **Tụ Khí Trung kỳ**. Bậc 3 mở khi đạt **Ngưng Đan Sơ kỳ**. Cảnh giới chỉ là điều kiện mở; lần tiến hóa vẫn phải đáp ứng điều kiện và tài nguyên của nhánh.
 - Mỗi nhóm loài có **điều kiện tiến hóa riêng** cho bậc 2 và bậc 3. Điều kiện cụ thể do Product Owner viết lại và xác nhận sau; bảng đề xuất trước đó chưa được duyệt, không áp dụng làm luật Alpha.
 - Khi bắt đầu hợp lệ, tiến hóa **bậc 2 tiêu hao 2 đơn vị nguyên liệu tiến hóa và kéo dài 15 phút thực**; tiến hóa **bậc 3 tiêu hao 5 đơn vị và kéo dài 60 phút thực**. Hai mốc thời gian được tính bằng đồng hồ server.
-- Tối đa **bậc 3/6** trong Alpha. Không có Hóa Hình thành người. Tên bậc trong hồ sơ 8 loài là **tên làm việc** cho đến khi bảng hiệu ứng từng bậc được duyệt.
+- Tối đa **bậc 3/6** trong Alpha. Không có Hóa Hình thành người. Tên bậc 1 của tám dòng đã chốt theo mẫu “Nguyên”; tên bậc 2–3 trong hồ sơ vẫn là **tên làm việc** cho đến khi bảng hiệu ứng từng bậc được duyệt.
 - Chỉ thủ lĩnh có trí tuệ. Những mô tả như “mở linh trí” hoặc “khai trí” trong tên và hồ sơ hình thái không tạo trí tuệ độc lập cho thành viên khác.
 - Việc bắt đầu tiến hóa cần không ở COMBAT và đủ tài nguyên; tài nguyên bị trừ ngay, không chủ động hủy. Tiến trình tiếp tục khi người chơi offline và tự hoàn tất khi đến hạn.
 - Trong `EVOLVING`, thủ lĩnh đứng yên, không làm nhiệm vụ, không bị chọn làm mục tiêu kỹ năng và miễn nhiễm sát thương, gây chết, hiệu ứng bất lợi.
@@ -144,14 +144,14 @@ Yêu Đan là thuộc tính nội tại hình thành khi lên Ngưng Đan, tăng
 
 | Nhóm | Bậc 1 | Bậc 2 | Bậc 3 trong hồ sơ đầu vào |
 |---|---|---|---|
-| Rắn | Phàm Xà | Linh Xà | Đại Mãng Xà / Yêu Xà |
-| Cáo | Phàm Hồ | Yêu Hồ | Tam Vĩ Hồ |
-| Rùa | Phàm Quy | Linh Quy | Thiết Giáp Quy |
-| Khỉ | Phàm Hầu | Hầu Tinh | Linh Hầu |
-| Sói | Phàm Lang | Tật Phong Lang | Yêu Lang |
-| Hổ | Phàm Hổ | Yêu Hổ | Sát Hổ |
-| Chim | Phàm Điểu | Linh Điểu | Yêu Cầm |
-| Cá | Phàm Ngư | Linh Ngư | Hà Hải Ngư |
+| Rắn | Nguyên Xà | Linh Xà | Đại Mãng Xà / Yêu Xà |
+| Cáo | Nguyên Hồ | Yêu Hồ | Tam Vĩ Hồ |
+| Rùa | Nguyên Quy | Linh Quy | Thiết Giáp Quy |
+| Khỉ | Nguyên Hầu | Hầu Tinh | Linh Hầu |
+| Sói | Nguyên Lang | Tật Phong Lang | Yêu Lang |
+| Hổ | Nguyên Hổ | Yêu Hổ | Sát Hổ |
+| Chim | Nguyên Điểu | Linh Điểu | Yêu Cầm |
+| Cá | Nguyên Ngư | Linh Ngư | Hà Hải Ngư |
 
 Tên **Tam Vĩ Hồ** và **Hầu Tinh** được giữ trong Alpha, còn mô tả “hóa người để tiếp cận người” và “học theo người” chuyển sang game sau. Các bậc 4–6, nhánh cá chép hóa rồng, nhánh Phượng Hoàng/Kim Sí Đại Bằng và điều kiện pha trăng, bão, lôi kiếp, dung hợp hai loài, chuỗi nhiệm vụ là định hướng sau Alpha, không phải khả năng đã mở trong bản này.
 

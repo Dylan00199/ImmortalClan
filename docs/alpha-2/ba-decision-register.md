@@ -35,6 +35,7 @@
 | BA-EVO-01 | Mỗi nhóm loài có điều kiện tiến hóa riêng ở bậc 2 và 3; Product Owner sẽ viết lại điều kiện cụ thể. Bảng đề xuất trước đó chưa được duyệt. | §7, Phụ lục A, FR-09 |
 | BA-EVO-02 | Bậc 2: 2 nguyên liệu tiến hóa và 15 phút thực; bậc 3: 5 nguyên liệu tiến hóa và 60 phút thực. | §7, FR-09 |
 | BA-EVO-03 | Chỉ thủ lĩnh có trí tuệ; mô tả “mở linh trí/khai trí” của hình thái tiến hóa không trao trí tuệ độc lập cho thú khác. | §§4, 7 |
+| BA-EVO-04 | Chốt tên bậc phàm thai của tám dòng có thể chiêu mộ: Nguyên Xà, Nguyên Hồ, Nguyên Quy, Nguyên Hầu, Nguyên Lang, Nguyên Hổ, Nguyên Điểu, Nguyên Ngư. Đây là tên dòng/bậc 1, không thay đổi luật chỉ thủ lĩnh được tiến hóa; tên bậc 2–3 vẫn là tên làm việc. | §7; FR-09; `content-catalog.md` |
 | BA-RES-01 | Người dùng xác nhận nội dung định tính của `ImmotalClan_resroucesInMap.md`: Đói/Khát cho mọi thú sống, chế độ ăn và tốc độ đói tương đối, FSM tìm ăn/uống, thịt từ thú hoang, ba bậc thịt/linh thảo/quặng, phân bố tài nguyên và tái sinh quần thể theo thức ăn/nước. Các mục `[CẦN QUYẾT]` chưa được trả lời ở Q01–Q06 vẫn TBD; bậc thịt đã chuyển sang xét theo cảnh giới tại Q04. | §§3, 5, 12; FR-19–FR-20, Phụ lục A |
 | BA-RES-02 | Bỏ trần 1.000 NPC nêu trong tệp tài nguyên. Giữ mục tiêu thử tải PRD: 12 gia tộc × 100 suất và 200 thú hoang/bản đồ. Tên “Vùng Lập Tổ” trong tệp là Vùng cư trú hoang sơ ở Alpha. | §§3, 12; NFR-02 |
 | BA-RES-Q01 | Đói hoặc Khát về 0 gây suy yếu vận động/chiến đấu, sau đó mất HP dần và có thể chết; ngưỡng và tốc độ còn TBD. | §5, FR-19, Phụ lục A |
