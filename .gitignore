@@ -1,0 +1,6 @@
+.idea/
+.map-v2-staging/
+**/node_modules/
+**/dist/
+**/.env
+**/.env.local

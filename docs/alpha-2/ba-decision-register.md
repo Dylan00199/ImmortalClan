@@ -45,6 +45,8 @@
 | BA-RES-Q06 | Khi Đói hoặc Khát về 0: di chuyển và công kích giảm 20%; sau 30 phút liên tục ở 0 mất 5% HP tối đa mỗi giờ, có thể chết; phục hồi dinh dưỡng thì ngừng hình phạt. Hai thanh cùng 0 áp dụng một lần. | §5, FR-19 |
 | BA-RES-Q07 | Thú ăn cỏ/con mồi nhỏ trên cạn và cá nhỏ/đàn cá có Đói từ đầy về 0 sau 12 giờ thực. Con mồi cạn có Khát từ đầy về 0 sau 6 giờ; cá trong nước phù hợp có Khát đầy. | §5, FR-19 |
 | BA-RES-Q08 | Cá chỉ đi trên ô nước và lối chuyển bản đồ nối vùng nước hợp lệ, không ở trên ô đất. Rùa có thể lên cạn; khi lên cạn Khát giảm theo mốc 6 giờ thực. | §§3, 5; FR-03, FR-19 |
+| BA-RES-Q09 | Mọi thú sống có thể tự kiếm ăn, gồm thú gia tộc, thú hoang và con mồi, bắt đầu tìm thức ăn khi Đói ≤ 40/100, trừ lúc phải ưu tiên phòng vệ; `EVOLVING` đóng băng Đói và không tìm ăn. Không dùng đơn vị “bữa ăn” bắt buộc. Số miếng thịt, lượng hồi Đói/Khát và sản lượng từ xác thú vẫn TBD. | §5; FR-19; `food-web-alpha.md` |
+| BA-RES-Q10 | Sơ đồ chuỗi thức ăn biểu thị loài **có thể** bị ăn/ăn, không buộc thú luôn tìm loài đó để săn. Alpha dùng sơ đồ khái quát đã đề xuất: cả tám nhóm thú có thể chiêu mộ, khi còn hoang, đều có thể thành con mồi nếu bị giết; thú ăn nguồn thịt phù hợp chế độ ăn của cá thể. | §5; FR-19–FR-20; `food-web-alpha.md` |
 
 ## Việc còn lại sau BA phạm vi
 

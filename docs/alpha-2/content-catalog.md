@@ -35,7 +35,7 @@ Tất cả tám nhóm dùng cùng điều kiện chiêu mộ. Chim và Cá là *
 
 ## 3. Quần thể con mồi nền
 
-Tầng con mồi **không thể chiêu mộ và không tiến hóa**; mọi cá thể sống vẫn có Đói/Khát. Danh mục dưới đây lấy từ hồ sơ tài nguyên đã được xác nhận ở mức nhóm/sinh cảnh; mật độ, chỉ số và đồ họa cụ thể còn TBD.
+Tầng con mồi nền **không thể chiêu mộ và không tiến hóa**; mọi cá thể sống vẫn có Đói/Khát. Đây không phải toàn bộ con mồi Alpha: cá thể hoang thuộc tám nhóm có thể chiêu mộ cũng có thể bị giết và cho thịt. [Sơ đồ thức ăn Alpha](food-web-alpha.md) phân biệt khả năng ăn với hành vi tìm ăn. Danh mục dưới đây lấy từ hồ sơ tài nguyên đã được xác nhận ở mức nhóm/sinh cảnh; mật độ, chỉ số và đồ họa cụ thể còn TBD.
 
 | ID | Vùng gợi ý | Nhóm con mồi/thực vật |
 |---|---|---|

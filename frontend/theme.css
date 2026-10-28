@@ -1,0 +1,66 @@
+/* Warm earth palette for the playable HUD and the villa hall. */
+:root{color:#f4dfb9;background:#33281c}
+.game{background:#5f7048}
+.world-vignette{box-shadow:inset 0 0 125px #2d21145c;background:linear-gradient(#302315b8,transparent 27%,transparent 72%,#2c2115a8)}
+.game-top{background:linear-gradient(#332519e8,transparent)}
+.seal{background:#c5a474;color:#48301c;border-color:#f0d9a7;box-shadow:0 0 0 3px #6a482b}
+.location small,.quest-hint small,.hall-header small,.menu-window small,.assignment small{color:#e7c887}
+.objective-mini,.icon-button,.player-hud,.quest-hint,.interaction,.hotbar{background:#3d2c1ee8;border-color:#c9a873;color:#f6e3c0}
+.resource-strip{background:#c9a873;border-color:#c9a873}
+.resource-strip span{background:#3d2c1ee8;color:#f6e3c0}
+.player-hud img{background:#8d704e;border-color:#d2af7c}
+.player-name span{color:#e4cfaa}
+.bar{background:#261c16;border-color:#b0946b}
+.quest-hint{border-left-color:#e6bd6c}
+.quest-marker{color:#ffd488}
+.hotbar button{background:#654832;border-color:#ab8457;color:#f8e6c6}
+.hotbar button:first-child{background:#805137;border-color:#d3a073}
+.hotbar button span{color:#ffda8b}
+.hotbar button small{color:#e0c49e}
+.interaction.muted{opacity:.72}
+.keycap{background:#e0bb7f;border-color:#ffe0a4;color:#4b301b}
+.controls-note{color:#f5e2bd}
+.toast{background:#f0d7a4;color:#513821;border-color:#a97844}
+.overlay-scrim{background:#21160ce3}
+.hall-window,.menu-window{background:#ead8b5;color:#47321f;border-color:#ae8551;box-shadow:0 0 0 5px #5b4029,0 25px 80px #000b}
+.hall-header{background:linear-gradient(120deg,#8d6540,#63482e);border-bottom-color:#b59361;color:#fff0cf}
+.hall-header p{color:#f2ddbb}
+.hall-header small{color:#ffe0a4}
+.close-button{background:#5d422d;color:#ffe3b7;border-color:#d4ae75}
+.hall-nav{background:#dfc99f;border-right-color:#bba070}
+.hall-nav button{background:#8d6844;border-color:#b98f59;color:#fff0cf}
+.hall-rule,.section-caption{color:#825b33}
+.hall-goals div{border-bottom-color:#bda577;color:#513b28}
+.hall-goals div.done{color:#42613a}
+.hall-tip{color:#6e5a3d}
+.hall-content{background:#ead8b5}
+.npc-card{background:#f5e6c9;border-color:#c7ac7e;color:#463220}
+.npc-card.selected,.npc-card:hover{background:#e5c99b;border-color:#a8753e}
+.npc-card img{background:#d7bc8f;border-color:#ad8c5e}
+.npc-card small{color:#76634b}
+.npc-card em{color:#53714a}
+.assignment{background:#dcc39a;border-color:#ac8655}
+.assignment select{background:#f8ebd0;color:#4d3824;border-color:#ab8555}
+.assignment button,.hall-footer button{background:#a8743e;color:#fff0ce;border-color:#815329}
+.hall-footer{background:#d7bd91;border-top-color:#b19363;color:#5a442d}
+.menu-window{background:#ead8b5}
+.menu-window small{color:#9b713e}
+.menu-window p{color:#66543d}
+.menu-window button:not(.close-button){background:#a87a4e;color:#fff0ce;border-color:#815d37}
+.menu-window button.gold-button{background:#edc989;color:#4f341e;border-color:#b58349}
+@media(max-width:700px){.touch-pad button{background:#513a29df;color:#ffe0a4;border-color:#d5ad74}}
+
+/* Flat presentation: no cast shadows beneath game objects or UI cards. */
+*,*::before,*::after{box-shadow:none!important;text-shadow:none!important}
+.world-vignette{display:none}
+.player-hud img{padding:0;background:#8d704e}
+.player-hud canvas{width:55px;height:64px;image-rendering:pixelated;background:#8d704e;border:1px solid #d2af7c}
+.menu-window{width:min(430px,calc(100vw - 26px));max-height:calc(100dvh - 30px);overflow:auto}
+.player-choice{border:1px solid #b58e5f;padding:9px;background:#e2cba5}
+.player-choice>span{display:block;color:#7c5733;font-size:9px;font-weight:800;letter-spacing:.12em;margin-bottom:7px}
+.player-choice>div{display:flex;gap:7px}
+.menu-window .player-choice button{width:50%;height:76px;padding:4px;display:flex;align-items:center;justify-content:center;gap:9px;background:#f3e0bf;color:#513922;border:1px solid #ba9767}
+.menu-window .player-choice button.chosen{background:#d4ad72;border:2px solid #815329}
+.player-choice img{height:64px;width:40px;object-fit:contain;image-rendering:pixelated}
+.player-choice canvas{width:42px;height:64px;image-rendering:pixelated}
+@media(max-width:700px){.player-hud canvas{width:39px;height:50px}}

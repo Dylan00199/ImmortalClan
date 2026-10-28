@@ -109,7 +109,8 @@ Server lưu điểm tu vi thập phân; giao diện hiển thị tỷ lệ phầ
 | BAL-SUR-07 | Đói hoặc Khát bằng 0 | −20% tốc độ di chuyển và công kích; không nhân đôi nếu cả hai bằng 0 | Đã duyệt |
 | BAL-SUR-08 | Thời gian liên tục bằng 0 trước khi mất HP | 30 phút | Đã duyệt |
 | BAL-SUR-09 | HP mất sau thời gian chờ | 5% HP tối đa/giờ; có thể chết | Đã duyệt |
-| BAL-SUR-10 | Lượng ăn/uống, ngưỡng cảnh báo, lượng thịt, tỷ lệ tái sinh | TBD | Chưa chốt |
+| BAL-SUR-10 | Ngưỡng bắt đầu tự tìm thức ăn của mọi thú sống | Đói ≤ 40/100 | Đã duyệt |
+| BAL-SUR-11 | Lượng ăn/uống, ngưỡng cảnh báo giao diện, lượng thịt, tỷ lệ tái sinh | TBD | Chưa chốt |
 
 ## Các số chưa chốt khác
 

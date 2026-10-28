@@ -47,6 +47,7 @@ Mỗi luật có mã ổn định để đối chiếu với yêu cầu `FR-*`. 
 | GR-SUR-05 | Đã duyệt | Cá trong nước phù hợp luôn đầy Khát và không lên đất. Rùa trong nước phù hợp đầy Khát; trên cạn dùng hạn Khát của thú cạn. Nước mặn không làm đầy Khát của thú cạn. | FR-03, FR-19 |
 | GR-SUR-06 | Đã duyệt | Thú hoang bị giết cho thịt. Bậc thịt theo cảnh giới thú bị giết: chưa vào Tụ Khí → phàm; Tụ Khí → linh; Ngưng Đan → yêu. Không cấm săn chỉ vì con mồi cùng nhóm loài. | FR-20, BA-RES-Q04 |
 | GR-SUR-07 | Đã duyệt | Linh thảo chỉ được dùng chủ động để tăng tu vi, không lấp Đói; thực vật thường là thức ăn. Quặng có ba nhóm nội dung ở `content-catalog.md`. | FR-08, FR-20 |
+| GR-SUR-08 | Đã duyệt | Mọi thú sống có thể tự kiếm ăn bắt đầu tìm thức ăn khi Đói ≤ 40/100, với ưu tiên phòng vệ khi gặp nguy hiểm; `EVOLVING` đóng băng Đói nên không kích hoạt. Sơ đồ thức ăn ghi khả năng ăn, không chỉ định mục tiêu phải săn; cả tám nhóm chiêu mộ khi còn hoang có thể là nguồn thịt nếu bị giết. Lượng ăn và thịt còn TBD. | FR-19–FR-20; `food-web-alpha.md` |
 | GR-ECO-01 | Đã duyệt | Mật độ mục tiêu quần thể phụ thuộc thức ăn/nước; thiếu thực vật thì con mồi không tái sinh, thiếu con mồi thì thú săn mồi hoang không tái sinh. Thực vật thường là tài nguyên tĩnh mọc lại; đàn cá nhỏ có thể dùng một thực thể đại diện. | FR-20 |
 | GR-ECO-02 | TBD | Tọa độ sinh cảnh, chu kỳ tái sinh, mật độ mục tiêu, lượng thịt/thức ăn và quy tắc lấy từ kho còn chờ bảng cân bằng. Không áp dụng trần 1.000 NPC trong hồ sơ nguồn. | FR-20, NFR-02 |
 
