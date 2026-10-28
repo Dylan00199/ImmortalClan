@@ -65,7 +65,8 @@ Server lưu điểm tu vi thập phân; giao diện hiển thị tỷ lệ phầ
 | BAL-CUL-11 | Điểm còn sau đột phá thất bại | 80% mốc yêu cầu hiện tại | Đã duyệt |
 | BAL-CUL-12 | Debuff sau thất bại | 10 phút; nhận tu vi giảm 50%, chặn thử lại | Đã duyệt |
 | BAL-CUL-13 | Yêu Đan khi vào Ngưng Đan | +10% HP tối đa, linh lực tối đa, công kích, phòng ngự, tốc độ | Đã duyệt |
-| BAL-CUL-14 | Xác suất đột phá, hệ số tinh hoa, tu vi từ linh thảo, phần dư | TBD | Chưa chốt |
+| BAL-CUL-14 | Tu vi dư sau đột phá | 0 điểm; không bảo lưu | Đã duyệt |
+| BAL-CUL-15 | Xác suất đột phá giảm theo giai đoạn/cảnh giới; hệ số tinh hoa; tu vi linh thảo | TBD | Chưa chốt số |
 
 ## BAL-EVO — Tiến hóa thủ lĩnh
 
@@ -75,6 +76,7 @@ Server lưu điểm tu vi thập phân; giao diện hiển thị tỷ lệ phầ
 | BAL-EVO-02 | Nguyên liệu tiến hóa tiêu hao | 2 đơn vị | 5 đơn vị | Đã duyệt |
 | BAL-EVO-03 | Thời lượng tiến hóa | 15 phút | 60 phút | Đã duyệt |
 | BAL-EVO-04 | Điều kiện riêng theo tám nhóm; hiệu ứng từng bậc | TBD | TBD | Product Owner sẽ viết lại điều kiện |
+| BAL-EVO-05 | Loại nguyên liệu tiến hóa | Riêng từng dòng; tên/nguồn TBD | Riêng từng dòng; tên/nguồn TBD | Đã duyệt nguyên tắc |
 
 ## BAL-WAR — Chiến tranh
 
@@ -84,7 +86,8 @@ Server lưu điểm tu vi thập phân; giao diện hiển thị tỷ lệ phầ
 | BAL-WAR-02 | Chuẩn bị | Tối đa 1 phút; có thể bắt đầu sớm theo luật offline/online | Đã duyệt |
 | BAL-WAR-03 | Thời lượng/lượt | Tối đa 20 giây | Đã duyệt |
 | BAL-WAR-04 | Lượt/trận | Tối đa 12 | Đã duyệt |
-| BAL-WAR-05 | Công thức tổng tỷ lệ HP; hành động và sát thương/lượt | TBD | Chưa chốt |
+| BAL-WAR-05 | Tỷ lệ HP để phân thắng sau lượt 12 | Tổng HP hiện tại / tổng HP tối đa của đội hình ban đầu; thú chết tính 0 | Đã duyệt |
+| BAL-WAR-06 | Hành động và sát thương/lượt | TBD | Chưa chốt |
 
 ## BAL-DROP — Vật phẩm rơi
 
@@ -94,7 +97,8 @@ Server lưu điểm tu vi thập phân; giao diện hiển thị tỷ lệ phầ
 | BAL-DROP-02 | Quyền nhặt riêng của gia tộc | 0 đến trước 10 phút | Đã duyệt |
 | BAL-DROP-03 | Quyền nhặt công cộng | Từ phút 10 đến trước phút 30 | Đã duyệt |
 | BAL-DROP-04 | Hết hạn vật phẩm rơi | Từ phút 30 | Đã duyệt |
-| BAL-DROP-05 | Lượng thịt từ thú hoang, hiệu quả từng bậc, quyền nhặt | TBD | Chưa chốt |
+| BAL-DROP-05 | Quyền nhặt thịt từ thú hoang bị giết | Công cộng ngay; xóa sau 30 phút thực | Đã duyệt |
+| BAL-DROP-06 | Lượng thịt và lượng hồi Đói theo bậc | TBD; bậc cao hồi nhiều hơn | Chưa chốt số |
 
 ## BAL-SUR — Đói, khát và sinh tồn
 
@@ -110,7 +114,9 @@ Server lưu điểm tu vi thập phân; giao diện hiển thị tỷ lệ phầ
 | BAL-SUR-08 | Thời gian liên tục bằng 0 trước khi mất HP | 30 phút | Đã duyệt |
 | BAL-SUR-09 | HP mất sau thời gian chờ | 5% HP tối đa/giờ; có thể chết | Đã duyệt |
 | BAL-SUR-10 | Ngưỡng bắt đầu tự tìm thức ăn của mọi thú sống | Đói ≤ 40/100 | Đã duyệt |
-| BAL-SUR-11 | Lượng ăn/uống, ngưỡng cảnh báo giao diện, lượng thịt, tỷ lệ tái sinh | TBD | Chưa chốt |
+| BAL-SUR-11 | Ngưỡng kết thúc đợt tìm ăn | Đói ≥ 80/100; tạm dừng khi nguy hiểm/thiếu nguồn | Đã duyệt |
+| BAL-SUR-12 | Ngưỡng bắt đầu tự tìm nước | Khát ≤ 40/100 | Đã duyệt |
+| BAL-SUR-13 | Lượng ăn/uống, ngưỡng dừng tìm nước và cảnh báo giao diện, lượng thịt, tỷ lệ tái sinh | TBD | Chưa chốt |
 
 ## Các số chưa chốt khác
 

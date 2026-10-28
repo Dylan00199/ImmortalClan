@@ -14,7 +14,7 @@
 | MAP-03 | Biển Đông | Đảo, hải thú, tài nguyên biển; không có hải tặc trong Alpha | Lối nước nối sông, vùng nước ngọt/mặn, sinh cảnh biển |
 | MAP-04 | Bãi hoang | Yêu thú, tài nguyên thưa, ít điểm nước | Vị trí điểm nước, lãnh thổ và sức chứa |
 
-Cá đi qua ô nước và lối nối các vùng nước hợp lệ; Rùa có thể lên cạn. Bản đồ phải ghi điểm nước, thức ăn thường, linh thảo, quặng và điểm chuyển vùng. Phương pháp tạo bản đồ, tọa độ và mật độ còn TBD; tệp tài nguyên cũ gọi MAP-01 là “Vùng Lập Tổ”.
+Cả bốn bản đồ Alpha sẽ **thiết kế lại**; bản đồ prototype hiện có không được mặc định là một trong bốn bản đồ hoàn chỉnh. Cá đi qua ô nước và lối nối các vùng nước hợp lệ với loại nước gắn khi xuất hiện; Rùa có thể lên cạn. Bản đồ phải ghi điểm nước ngọt/mặn, thức ăn thường, linh thảo, quặng và điểm chuyển vùng. Phương pháp tạo bản đồ, tọa độ và mật độ còn TBD; tệp tài nguyên cũ gọi MAP-01 là “Vùng Lập Tổ”.
 
 ## 2. Tám nhóm thú có thể chiêu mộ
 
@@ -51,8 +51,8 @@ Cá nhỏ có thể được mô phỏng bằng một thực thể “đàn” �
 | Nhóm nội dung | Danh mục ý tưởng đã duyệt | Còn TBD |
 |---|---|---|
 | Kỹ năng nền | Cắn xé, Dồn lực, Thủ thế, Né tránh, Truy kích, Phá giáp, Hồi sức, Tụ linh | Loài học kỹ năng nào, sát thương, chi phí, thời gian hồi |
-| Huyết mạch | Phàm thú, Sơn Lâm, Hải Triều, Hoang Mạc | Chỉ số, di truyền, đột biến và thức tỉnh |
-| Thể chất | Cường Thể, Chiến Thể, Linh Thể, Tật Phong | Chỉ số, di truyền, đột biến và thức tỉnh |
+| Huyết mạch | Phàm thú, Sơn Lâm, Hải Triều, Hoang Mạc | Chỉ số, di truyền và đột biến; Alpha không có loại ẩn/thức tỉnh |
+| Thể chất | Cường Thể, Chiến Thể, Linh Thể, Tật Phong | Chỉ số, di truyền và đột biến; Alpha không có loại ẩn/thức tỉnh |
 
 ## 5. Ba mảnh pháp bảo khởi đầu
 
@@ -69,9 +69,9 @@ Người chơi chọn một mảnh lúc bắt đầu; không tạo thêm các m�
 | ID | Danh mục | Ví dụ hoặc nguồn | Vai trò đã duyệt/còn TBD |
 |---|---|---|---|
 | FOOD-01 | Thức ăn thực vật thường | Cỏ, quả, hạt, lá | Nuôi thú ăn thực vật/ăn tạp; lượng lấp Đói TBD |
-| FOOD-02 | Thịt thú phàm | Thú hoang bị giết chưa vào Tụ Khí | Lấp Đói; lượng rơi và hiệu quả TBD |
-| FOOD-03 | Thịt linh thú | Thú hoang bị giết ở Tụ Khí | Lấp Đói; lượng rơi và hiệu quả TBD |
-| FOOD-04 | Thịt yêu thú | Thú hoang bị giết ở Ngưng Đan | Lấp Đói; lượng rơi và hiệu quả TBD |
+| FOOD-02 | Thịt thú phàm | Thú hoang bị giết chưa vào Tụ Khí | Lấp Đói ít nhất trong ba bậc; lượng rơi và số điểm TBD |
+| FOOD-03 | Thịt linh thú | Thú hoang bị giết ở Tụ Khí | Lấp Đói nhiều hơn bậc phàm; lượng rơi và số điểm TBD |
+| FOOD-04 | Thịt yêu thú | Thú hoang bị giết ở Ngưng Đan | Lấp Đói nhiều hơn bậc linh; lượng rơi và số điểm TBD |
 | HERB-01 | Linh thảo thượng phẩm | Linh chi, nhân sâm | Tăng tu vi khi dùng chủ động; ổn định, hiếm; số điểm TBD |
 | HERB-02 | Linh thảo trung phẩm | Gừng, mẫu đơn | Tăng tu vi mức vừa; hiệu ứng phụ và số điểm TBD |
 | HERB-03 | Linh thảo hạ phẩm | Đại hoàng, nhân hạnh | Tăng tu vi mạnh hơn nhưng rủi ro; số điểm và rủi ro TBD |
@@ -79,7 +79,7 @@ Người chơi chọn một mảnh lúc bắt đầu; không tạo thêm các m�
 | ORE-02 | Quặng quý | Vàng, bạc | Hướng nâng pháp bảo/trao đổi; công thức TBD |
 | ORE-03 | Linh khoáng | Đan sa, ngọc | Hướng tiến hóa/đột phá; công thức TBD |
 
-Nước ở sông, suối, ao, hồ và đầm là nguồn uống của thú cạn. Linh thảo **không** lấp Đói. Thú hoang bị giết cho thịt; cơ chế rơi thịt khác cơ chế rơi một vật phẩm hành trang của thú gia tộc và cần đặc tả lượng/quyền nhặt riêng.
+Nước ở sông, suối, ao, hồ và đầm là nguồn uống của thú cạn. Linh thảo **không** lấp Đói. Chỉ thú hoang bị giết cho thịt trong Alpha; thú gia tộc chết không cho thịt. Thịt công cộng ngay và hết hạn sau 30 phút thực; cơ chế này khác một vật phẩm hành trang rơi từ thú gia tộc. Lượng thịt và mức hồi Đói còn TBD.
 
 ## 7. Nội dung ngoài Alpha
 

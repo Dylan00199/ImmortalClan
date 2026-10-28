@@ -40,7 +40,7 @@
 | BA-RES-02 | Bỏ trần 1.000 NPC nêu trong tệp tài nguyên. Giữ mục tiêu thử tải PRD: 12 gia tộc × 100 suất và 200 thú hoang/bản đồ. Tên “Vùng Lập Tổ” trong tệp là Vùng cư trú hoang sơ ở Alpha. | §§3, 12; NFR-02 |
 | BA-RES-Q01 | Đói hoặc Khát về 0 gây suy yếu vận động/chiến đấu, sau đó mất HP dần và có thể chết; ngưỡng và tốc độ còn TBD. | §5, FR-19, Phụ lục A |
 | BA-RES-Q02 | Đói/Khát đóng băng khi EVOLVING hoặc DEAD; hồi sinh và vào chiến tranh thì đầy; thai kỳ không tăng nhu cầu trong Alpha. | §§5, 7–9; FR-07, FR-12–FR-13, FR-19 |
-| BA-RES-Q03 | Khi offline, thú gia tộc tự dùng thức ăn từ kho biệt viện; hết thì kiếm ăn/uống bằng FSM. Linh thảo chỉ dùng chủ động để tăng tu vi, không lấp Đói; thú hoang không lấy đồ trong kho. | §5, FR-19–FR-20 |
+| BA-RES-Q03 | Quyết định ban đầu: khi offline thú gia tộc tự dùng thức ăn kho rồi tự kiếm; linh thảo không lấp Đói, thú hoang không lấy đồ kho. **Quyền ăn kho đã được OPEN-02 làm rõ: cần chủ bật cho phép.** | §5, FR-19–FR-20 |
 | BA-RES-Q04 | Ba bậc thịt theo cảnh giới thú bị giết: chưa vào Tụ Khí → thú phàm, Tụ Khí → linh thú, Ngưng Đan → yêu thú. Không cấm săn chỉ vì cùng nhóm loài. | §5, FR-20 |
 | BA-RES-Q05 | Đói từ đầy về 0 sau 6 giờ thực ở Hổ/Sói, 12 giờ ở Cá/Khỉ/Cáo/Chim, 24 giờ ở Rắn/Rùa; Khát của thú cạn sau 6 giờ thực. Thú ở trong nước phù hợp có Khát đầy. | §5, FR-19 |
 | BA-RES-Q06 | Khi Đói hoặc Khát về 0: di chuyển và công kích giảm 20%; sau 30 phút liên tục ở 0 mất 5% HP tối đa mỗi giờ, có thể chết; phục hồi dinh dưỡng thì ngừng hình phạt. Hai thanh cùng 0 áp dụng một lần. | §5, FR-19 |
@@ -48,6 +48,36 @@
 | BA-RES-Q08 | Cá chỉ đi trên ô nước và lối chuyển bản đồ nối vùng nước hợp lệ, không ở trên ô đất. Rùa có thể lên cạn; khi lên cạn Khát giảm theo mốc 6 giờ thực. | §§3, 5; FR-03, FR-19 |
 | BA-RES-Q09 | Mọi thú sống có thể tự kiếm ăn, gồm thú gia tộc, thú hoang và con mồi, bắt đầu tìm thức ăn khi Đói ≤ 40/100, trừ lúc phải ưu tiên phòng vệ; `EVOLVING` đóng băng Đói và không tìm ăn. Không dùng đơn vị “bữa ăn” bắt buộc. Số miếng thịt, lượng hồi Đói/Khát và sản lượng từ xác thú vẫn TBD. | §5; FR-19; `food-web-alpha.md` |
 | BA-RES-Q10 | Sơ đồ chuỗi thức ăn biểu thị loài **có thể** bị ăn/ăn, không buộc thú luôn tìm loài đó để săn. Alpha dùng sơ đồ khái quát đã đề xuất: cả tám nhóm thú có thể chiêu mộ, khi còn hoang, đều có thể thành con mồi nếu bị giết; thú ăn nguồn thịt phù hợp chế độ ăn của cá thể. | §5; FR-19–FR-20; `food-web-alpha.md` |
+| BA-RES-Q11 | Thú gia tộc chết **không cho thịt trong Alpha**; khả năng đó để sau Alpha. | §§5, 9; FR-13–FR-14, FR-20 |
+| BA-RES-Q12 | Khi có nhiều nguồn ăn phù hợp, ưu tiên nguồn an toàn, tiếp cận được không cần giao đấu; thiếu nguồn thì xét con mồi hoang có thể hạ, ít rủi ro và gần hơn. Sơ đồ thức ăn chỉ là danh sách khả năng. | §5; FR-19; `food-web-alpha.md` |
+| BA-RES-Q13 | Bắt đầu tìm ăn khi Đói ≤ 40/100; tiếp tục đến Đói ≥ 80/100 hoặc tạm dừng vì nguy hiểm/thiếu nguồn; chỉ mở đợt mới khi xuống lại ≤ 40. | §5; FR-19; `BAL-SUR-*` |
+
+## Quyết định trong lượt BA-A2-OPEN-01–22
+
+| ID | Quyết định đã nhận | Truy vết |
+|---|---|---|
+| OPEN-01 | Tự tìm nước khi Khát ≤ 40/100. Câu trả lời chỉ nêu mốc 40; ngưỡng dừng tìm nước chưa chốt. | §5; FR-19 |
+| OPEN-02 | Thú gia tộc tự săn/tìm ăn cả online lẫn offline. Chỉ được tự lấy thức ăn kho khi chủ bật quyền cho phép ăn từ kho; quyền này tiếp tục có hiệu lực lúc offline. | §5; FR-19 |
+| OPEN-03 | Thịt bậc cao hồi nhiều Đói hơn bậc thấp; mức cụ thể chờ bảng cân bằng. | §5; FR-20 |
+| OPEN-04 | Chỉ thú hoang **bị giết** mới cho thịt; thú hoang chết do Đói/Khát hoặc nguyên nhân tự nhiên không cho thịt. | §§5, 9; FR-20 |
+| OPEN-05 | Thịt thú hoang rơi công cộng ngay, biến mất sau 30 phút thực nếu chưa nhặt. | §§5, 9; FR-20 |
+| OPEN-06 | Nguồn thức ăn/nước hữu hạn bị tranh chấp: yêu cầu hợp lệ được server ghi nhận trước sử dụng trước. | §§5, 12; NFR-01 |
+| OPEN-07 | Kiểu ăn của Chim/Cá cố định theo cá thể từ lúc xuất hiện; không phải mọi cá thể ăn được mọi nguồn của nhóm. | §§3, 5; FR-19 |
+| OPEN-08 | Khả năng sống ở nước ngọt/mặn/cả hai của Cá/Rùa được gắn khi cá thể xuất hiện. | §§3, 5; FR-03, FR-19 |
+| OPEN-09 | Bắt đầu thai kỳ cần hai thú trưởng thành cùng loài, một đực và một cái. Tuổi trưởng thành cụ thể chưa chốt. | §5; FR-07 |
+| OPEN-10 | Bố chết sau khi bắt đầu thai kỳ không hủy thai kỳ. | §5; FR-07 |
+| OPEN-11 | Alpha không có huyết mạch/thể chất ẩn. Thức tỉnh theo môi trường và thảo dược đặc biệt là định hướng sau Alpha, không đưa ví dụ Băng Linh Thể/Băng Quả vào danh mục Alpha. | §§5, 7, Phụ lục B; FR-07 |
+| OPEN-12 | Tám kỹ năng nền được phân theo nhóm loài; phân bổ và trị số chờ bảng nội dung/cân bằng. | §8, Phụ lục A |
+| OPEN-13 | Chủ online chọn hành động từng thú trong chiến tranh; bên offline do FSM/server xử lý. | §8; FR-12 |
+| OPEN-14 | Hết 12 lượt, tỷ lệ HP mỗi bên = tổng HP hiện tại / tổng HP tối đa của đội hình ban đầu; thú chết tính 0 HP hiện tại. | §8; FR-12 |
+| OPEN-15 | Xác suất đột phá giảm dần theo cảnh giới/giai đoạn; các tỷ lệ chưa chốt. | §6; FR-08 |
+| OPEN-16 | Không giữ tu vi dư khi đột phá sang giai đoạn mới, kể cả dư từ linh thảo; thay quyết định cũ về bảo lưu phần dư. | §6; FR-08 |
+| OPEN-17 | Mỗi dòng tiến hóa dùng nguyên liệu riêng, giữ lượng tiêu hao 2/5 đã duyệt; tên và nguồn thu nhận còn TBD. | §7; FR-09 |
+| OPEN-18 | Product Owner yêu cầu nghiên cứu nguồn và trình **một bộ số cân bằng thử nghiệm** cho pháp bảo, kỹ năng/chỉ số, di truyền, linh thảo và các ô còn thiếu để duyệt; chưa tự duyệt số nào. | Phụ lục A |
+| OPEN-19 | Thiết kế lại **cả bốn bản đồ Alpha**; bản đồ prototype hiện có không mặc định là bản đồ Alpha cuối cùng. | §3; FR-03 |
+| OPEN-20 | Quần thể thú hoang có thể tái sinh dần từ 0 khi nguồn thức ăn/nước và sức chứa vùng phục hồi. | §3; FR-20 |
+| OPEN-21 | Nếu điểm rơi ở lối chuyển bản đồ/ô không thể đặt, tìm ô hợp lệ gần nhất trên **bản đồ nơi thú chết**. | §9; FR-14 |
+| OPEN-22 | Khi nhiều vật phẩm kho cùng phẩm cấp cao nhất lúc pháp bảo bị phá, chọn ngẫu nhiên một vật phẩm trong nhóm đồng hạng. | §10; FR-16 |
 
 ## Việc còn lại sau BA phạm vi
 
