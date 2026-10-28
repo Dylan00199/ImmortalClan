@@ -73,7 +73,7 @@
 | OPEN-15 | Xác suất đột phá giảm dần theo cảnh giới/giai đoạn; các tỷ lệ chưa chốt. | §6; FR-08 |
 | OPEN-16 | Không giữ tu vi dư khi đột phá sang giai đoạn mới, kể cả dư từ linh thảo; thay quyết định cũ về bảo lưu phần dư. | §6; FR-08 |
 | OPEN-17 | Mỗi dòng tiến hóa dùng nguyên liệu riêng, giữ lượng tiêu hao 2/5 đã duyệt; tên và nguồn thu nhận còn TBD. | §7; FR-09 |
-| OPEN-18 | Product Owner yêu cầu nghiên cứu nguồn và trình **một bộ số cân bằng thử nghiệm** cho pháp bảo, kỹ năng/chỉ số, di truyền, linh thảo và các ô còn thiếu để duyệt; chưa tự duyệt số nào. | Phụ lục A |
+| OPEN-18 | Product Owner yêu cầu nghiên cứu nguồn và trình **một bộ số cân bằng thử nghiệm** cho pháp bảo, kỹ năng/chỉ số, di truyền, linh thảo và các ô còn thiếu để duyệt; chưa tự duyệt số nào. | Phụ lục A; `proposals/balance-v0.1.md` |
 | OPEN-19 | Thiết kế lại **cả bốn bản đồ Alpha**; bản đồ prototype hiện có không mặc định là bản đồ Alpha cuối cùng. | §3; FR-03 |
 | OPEN-20 | Quần thể thú hoang có thể tái sinh dần từ 0 khi nguồn thức ăn/nước và sức chứa vùng phục hồi. | §3; FR-20 |
 | OPEN-21 | Nếu điểm rơi ở lối chuyển bản đồ/ô không thể đặt, tìm ô hợp lệ gần nhất trên **bản đồ nơi thú chết**. | §9; FR-14 |

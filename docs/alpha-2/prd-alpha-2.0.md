@@ -256,6 +256,8 @@ Sức mạnh trung bình lấy sức mạnh nội tại của thủ lĩnh và th
 
 Theo quyết định BA-A2-E12, các mục sau **không được tự coi là đã duyệt**. Chúng cần bảng cân bằng riêng trước khi triển khai đầy đủ từng hệ. Chủ sở hữu quyết định nội dung là **Product Owner**; thiết kế hệ thống đề xuất số và xác minh bằng thử nghiệm.
 
+[Gói đề xuất cân bằng v0.1](proposals/balance-v0.1.md) tập hợp các trị số thử nghiệm có dẫn nguồn tham khảo và phép tính nội bộ; **toàn bộ số mới trong gói vẫn chờ duyệt**.
+
 | Nhóm | Giá trị/chứng cứ cần bổ sung |
 |---|---|
 | Tiến hóa bậc 2–3 | Điều kiện riêng của tám nhóm do Product Owner viết lại và duyệt; tên làm việc cần xác nhận; hiệu ứng/chỉ số từng bậc; nguồn nhận nguyên liệu tiến hóa và dữ liệu địa hình cần thiết. Chi phí 2/5 nguyên liệu và thời lượng 15/60 phút thực đã chốt ở §7. |
